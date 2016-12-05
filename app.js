@@ -15,9 +15,9 @@ var app = express();
 var mongoURL = "mongodb://localhost:27017/liconline";
 
 var MongoDB = mongoose.connect(mongoURL).connection;
-MongoDB.on('error', function (err) {
-  if (err) {
-    console.log('Mongodb connection error', err);
+MongoDB.on('error', function (error) {
+  if (error) {
+    console.log('Mongodb connection error', error);
   } else {
     console.log('Mongodb connection successful');
   }
@@ -39,23 +39,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use('/', index, users, companies);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  var error = new Error('Not Found');
+  error.status = 404;
+  next(error);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(error, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.message = error.message;
+  res.locals.error = req.app.get('env') === 'development' ? error : {};
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(error.status || 500);
   res.render('error');
 });
 

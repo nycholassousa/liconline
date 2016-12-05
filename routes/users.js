@@ -19,12 +19,12 @@ router.post('/api/users', function(require, response, next) {
 });
 
 /* PUT user */
-router.put('/api/users/:id', function(require, response, next) {
-	var userID = req.params.id;
+router.put('/api/users/:cpf', function(require, response, next) {
+	var userCPF = req.params.id;
 	var userInfo = req.body;
 
 	usersDB.update(
-		{'_id': userID},
+		{'_cpf': userCPF},
 		userInfo,
 		function(error, user) {
 			if (error)

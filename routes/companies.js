@@ -18,12 +18,12 @@ router.post('/api/companies', function(require, response, next) {
 });
 
 /* PUT companie */
-router.put('/api/companies/:id', function(require, response, next) {
-	var companieID = req.params.id;
+router.put('/api/companies/:cnpj', function(require, response, next) {
+	var companieCNPJ = req.params.id;
 	var companieInfo = req.body;
 
 	usersDB.update(
-		{'_id': companieID},
+		{'_cnpj': companieCNPJ},
 		companieInfo,
 		function(error, companie) {
 			if (error)
