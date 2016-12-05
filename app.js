@@ -5,11 +5,27 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var companies = require('./routes/companies');
 
 var app = express();
+var mongoURL = "mongodb://localhost:27017/liconline";
+
+var MongoDB = mongoose.connect(mongoURL).connection;
+MongoDB.on('error', function (err) {
+  if (err) {
+    console.log('Mongodb connection error', err);
+  } else {
+    console.log('Mongodb connection successful');
+  }
+});
+
+MongoDB.once('open', function () {
+  console.log('Mongodb connection open');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
