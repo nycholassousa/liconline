@@ -15,24 +15,29 @@ router.get('/api/users', function(require, response, next) {
 
 /* POST user */
 router.post('/api/users', function(require, response, next) {
-	users.push(req.body);
+var newUser = {
+		name: require.body.name,
+		lastname: require.body.lastname,
+		cpf: require.body.cpf,
+		email: require.body.email,
+		address: require.body.address,
+		number: require.body.number,
+		cep: require.body.cep,
+		phone: require.body.phone,
+		password: require.body.password
+	};
+
+	usersDB.create(newUser, function(error, next){
+		if (error)
+			next(error);
+		else
+			response.send(newUser);
+	});
 });
 
 /* PUT user */
 router.put('/api/users/:cpf', function(require, response, next) {
-	var userCPF = req.params.id;
-	var userInfo = req.body;
 
-	usersDB.update(
-		{'_cpf': userCPF},
-		userInfo,
-		function(error, user) {
-			if (error)
-				response.send(error);
-			else
-				response.json(user);
-		}
-	);
 });
 
 module.exports = router;

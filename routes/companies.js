@@ -14,24 +14,28 @@ router.get('/api/companies', function(require, response, next) {
 
 /* POST companie */
 router.post('/api/companies', function(require, response, next) {
-	companies.push(req.body);
+	//console.log(require.body);
+	var newCompanie = {
+		name: require.body.name,
+		cnpj: require.body.cnpj,
+		email: require.body.email,
+		address: require.body.address,
+		number: require.body.number,
+		cep: require.body.cep,
+		phone: require.body.phone
+	};
+
+	companiesDB.create(newCompanie, function(error, next){
+		if (error)
+			next(error);
+		else
+			response.send(newCompanie);
+	});
 });
 
 /* PUT companie */
 router.put('/api/companies/:cnpj', function(require, response, next) {
-	var companieCNPJ = req.params.id;
-	var companieInfo = req.body;
 
-	usersDB.update(
-		{'_cnpj': companieCNPJ},
-		companieInfo,
-		function(error, companie) {
-			if (error)
-				response.send(error);
-			else
-				response.json(companie);
-		}
-	);
 });
 
 module.exports = router;
