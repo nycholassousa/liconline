@@ -27,24 +27,27 @@
 
             // Apps
             'app.dashboards',
-            'app.calendar',
-            'app.e-commerce',
-            'app.mail',
-            'app.chat',
-            'app.file-manager',
-            'app.gantt-chart',
-            'app.scrumboard',
-            'app.todo',
-            'app.contacts',
-            'app.notes',
+            //'app.calendar',
+            //'app.e-commerce',
+            //'app.mail',
+            //'app.chat',
+            //'app.file-manager',
+            //'app.gantt-chart',
+            //'app.scrumboard',
+            //'app.todo',
+            //'app.contacts',
+            //'app.notes',
+			
+			//Users
+			'app.users',
 
             // Pages
-            'app.pages',
+            //'app.pages',
 
             // User Interface
-            'app.ui',
+            'app.ui'
 
             // Components
-            'app.components'
+            //'app.components'
         ]);
 })();

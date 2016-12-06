@@ -23,16 +23,17 @@
         });
 
         msNavigationServiceProvider.saveItem('apps.dashboards', {
-            title : 'Dashboards',
+            title : 'Dashboard',
             icon  : 'icon-tile-four',
             weight: 1
         });
 
         msNavigationServiceProvider.saveItem('apps.dashboards.project', {
-            title: 'Project',
+            title: 'Início',
             state: 'app.dashboards_project'
         });
 
+		/*
         msNavigationServiceProvider.saveItem('apps.dashboards.server', {
             title: 'Server',
             state: 'app.dashboards_server'
@@ -42,6 +43,7 @@
             title: 'Analytics',
             state: 'app.dashboards_analytics'
         });
+		*/
     }
 
 })();

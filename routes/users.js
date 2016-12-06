@@ -24,7 +24,8 @@ var newUser = {
 		number: require.body.number,
 		cep: require.body.cep,
 		phone: require.body.phone,
-		password: require.body.password
+		password: require.body.password,
+		created_at: Date.now()
 	};
 
 	usersDB.create(newUser, function(error, next){

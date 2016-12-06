@@ -17440,6 +17440,294 @@ angular.module('app.components.material-docs')
 {
     'use strict';
 
+    config.$inject = ["$stateProvider", "msApiProvider"];
+    angular
+        .module('app.users.list',
+            [
+                // 3rd Party Dependencies
+                'nvd3'
+            ]
+        )
+        .config(config);
+
+    /** @ngInject */
+    function config($stateProvider, msApiProvider)
+    {
+        // State
+        $stateProvider.state('app.users_list', {
+            url      : '/users-list',
+            views    : {
+                'content@app': {
+                    templateUrl: 'app/main/users/list/users-list.html',
+                    controller : 'UsersListController as vm'
+                }
+            },
+            resolve  : {
+                DashboardData: ["msApi", function (msApi)
+                {
+                    return msApi.resolve('users.list@get');
+                }]
+            },
+            bodyClass: 'users-list'
+        });
+
+        // Api
+        msApiProvider.register('users.list', []);
+    }
+
+})();
+(function ()
+{
+    'use strict';
+
+    angular
+        .module('app.users.list')
+        .controller('UsersListController', UsersListController);
+
+    /** @ngInject */
+    function UsersListController()
+    {
+
+    }
+
+})();
+(function ()
+{
+    'use strict';
+
+    config.$inject = ["$stateProvider"];
+    angular
+        .module('app.users.insert', [])
+        .config(config);
+
+    /** @ngInject */
+    function config($stateProvider)
+    {
+        $stateProvider.state('app.users_insert', {
+            url      : '/users/insert',
+            views    : {
+                'content@app': {
+                    templateUrl: 'app/main/users/insert/users-insert.html',
+                    controller : 'UsersInsertController as vm'
+                }
+            },
+            bodyClass: 'users-insert'
+        });
+    }
+
+})();
+(function ()
+{
+    'use strict';
+
+    UsersInsertController.$inject = ["$mdDialog"];
+    angular
+        .module('app.users.insert')
+        .controller('UsersInsertController', UsersInsertController);
+
+    /** @ngInject */
+    function UsersInsertController($mdDialog)
+    {
+        var vm = this;
+
+        // Data
+        vm.horizontalStepper = {
+            step1: {},
+            step2: {},
+            step3: {},
+            step4: {},
+            step5: {}
+        };
+
+        vm.basicForm = {};
+        vm.formWizard = {};
+        vm.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
+        'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
+        'WY').split(' ').map(function (state)
+        {
+            return {abbrev: state};
+        });
+
+        // Methods
+        vm.sendForm = sendForm;
+        vm.showDataDialog = showDataDialog;
+        vm.submitHorizontalStepper = submitHorizontalStepper;
+        vm.submitVerticalStepper = submitVerticalStepper;
+
+        //////////
+
+        /**
+         * Submit horizontal stepper data
+         * @param event
+         */
+        function submitHorizontalStepper(event)
+        {
+            // Show the model data in a dialog
+            vm.showDataDialog(event, vm.horizontalStepper);
+
+            // Reset the form model
+            vm.horizontalStepper = {
+                step1: {},
+                step2: {},
+                step3: {},
+                step4: {},
+                step5: {}
+            };
+        }
+
+        /**
+         * Submit vertical stepper data
+         *
+         * @param event
+         */
+        function submitVerticalStepper(event)
+        {
+            // Show the model data in a dialog
+            vm.showDataDialog(event, vm.verticalStepper);
+
+            // Reset the form model
+            vm.verticalStepper = {
+                step1: {},
+                step2: {},
+                step3: {},
+                step4: {},
+                step5: {}
+            };
+        }
+
+        /**
+         * Submit stepper form
+         *
+         * @param ev
+         */
+        function showDataDialog(ev, data)
+        {
+            // You can do an API call here to send the form to your server
+
+            // Show the sent data.. you can delete this safely.
+            $mdDialog.show({
+                controller         : ["$scope", "$mdDialog", "formWizardData", function ($scope, $mdDialog, formWizardData)
+                {
+                    $scope.formWizardData = formWizardData;
+                    $scope.closeDialog = function ()
+                    {
+                        $mdDialog.hide();
+                    };
+                }],
+                template           : '<md-dialog>' +
+                '  <md-dialog-content><h1>You have sent the form with the following data</h1><div><pre>{{formWizardData | json}}</pre></div></md-dialog-content>' +
+                '  <md-dialog-actions>' +
+                '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                '      Close' +
+                '    </md-button>' +
+                '  </md-dialog-actions>' +
+                '</md-dialog>',
+                parent             : angular.element('body'),
+                targetEvent        : ev,
+                locals             : {
+                    formWizardData: data
+                },
+                clickOutsideToClose: true
+            });
+        }
+
+        /**
+         * Send form
+         */
+        function sendForm(ev)
+        {
+            // You can do an API call here to send the form to your server
+
+            // Show the sent data.. you can delete this safely.
+            $mdDialog.show({
+                controller         : ["$scope", "$mdDialog", "formWizardData", function ($scope, $mdDialog, formWizardData)
+                {
+                    $scope.formWizardData = formWizardData;
+                    $scope.closeDialog = function ()
+                    {
+                        $mdDialog.hide();
+                    };
+                }],
+                template           : '<md-dialog>' +
+                '  <md-dialog-content><h1>You have sent the form with the following data</h1><div><pre>{{formWizardData | json}}</pre></div></md-dialog-content>' +
+                '  <md-dialog-actions>' +
+                '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                '      Close' +
+                '    </md-button>' +
+                '  </md-dialog-actions>' +
+                '</md-dialog>',
+                parent             : angular.element('body'),
+                targetEvent        : ev,
+                locals             : {
+                    formWizardData: vm.formWizard
+                },
+                clickOutsideToClose: true
+            });
+
+            // Clear the form data
+            vm.formWizard = {};
+        }
+    }
+})();
+(function ()
+{
+    'use strict';
+
+    config.$inject = ["$stateProvider", "msApiProvider"];
+    angular
+        .module('app.users.edit',
+            [
+                // 3rd Party Dependencies
+                'nvd3'
+            ]
+        )
+        .config(config);
+
+    /** @ngInject */
+    function config($stateProvider, msApiProvider)
+    {
+        // State
+        $stateProvider.state('app.users_edit', {
+            url      : '/users-edit',
+            views    : {
+                'content@app': {
+                    templateUrl: 'app/main/users/edit/users-edit.html',
+                    controller : 'UsersEditController as vm'
+                }
+            },
+            resolve  : {
+                DashboardData: ["msApi", function (msApi)
+                {
+                    return msApi.resolve('users.edit@get');
+                }]
+            },
+            bodyClass: 'users-edit'
+        });
+
+        // Api
+        msApiProvider.register('users.edit', []);
+    }
+
+})();
+(function ()
+{
+    'use strict';
+
+    angular
+        .module('app.users.edit')
+        .controller('UsersEditController', UsersEditController);
+
+    /** @ngInject */
+    function UsersEditController()
+    {
+
+    }
+
+})();
+(function ()
+{
+    'use strict';
+
     config.$inject = ["$stateProvider"];
     angular
         .module('app.ui.typography', [])
@@ -17628,6 +17916,52 @@ angular.module('app.components.material-docs')
 
     config.$inject = ["$stateProvider"];
     angular
+        .module('app.ui.helper-classes', [])
+        .config(config);
+
+    /** @ngInject */
+    function config($stateProvider)
+    {
+        $stateProvider.state('app.ui_helper-classes', {
+            url      : '/ui/helper-classes',
+            views    : {
+                'content@app': {
+                    templateUrl: 'app/main/ui/helper-classes/helper-classes.html',
+                    controller : 'HelperClassesController as vm'
+                }
+            },
+            bodyClass: 'helper-classes'
+        });
+    }
+
+})();
+(function ()
+{
+    'use strict';
+
+    angular
+        .module('app.ui.helper-classes')
+        .controller('HelperClassesController', HelperClassesController);
+
+    /** @ngInject */
+    function HelperClassesController()
+    {
+        // Data
+
+        // Methods
+
+        //////////
+    }
+})();
+
+
+
+(function ()
+{
+    'use strict';
+
+    config.$inject = ["$stateProvider"];
+    angular
         .module('app.ui.forms', [])
         .config(config);
 
@@ -17808,52 +18142,6 @@ angular.module('app.components.material-docs')
         }
     }
 })();
-(function ()
-{
-    'use strict';
-
-    config.$inject = ["$stateProvider"];
-    angular
-        .module('app.ui.helper-classes', [])
-        .config(config);
-
-    /** @ngInject */
-    function config($stateProvider)
-    {
-        $stateProvider.state('app.ui_helper-classes', {
-            url      : '/ui/helper-classes',
-            views    : {
-                'content@app': {
-                    templateUrl: 'app/main/ui/helper-classes/helper-classes.html',
-                    controller : 'HelperClassesController as vm'
-                }
-            },
-            bodyClass: 'helper-classes'
-        });
-    }
-
-})();
-(function ()
-{
-    'use strict';
-
-    angular
-        .module('app.ui.helper-classes')
-        .controller('HelperClassesController', HelperClassesController);
-
-    /** @ngInject */
-    function HelperClassesController()
-    {
-        // Data
-
-        // Methods
-
-        //////////
-    }
-})();
-
-
-
 (function ()
 {
     'use strict';
@@ -21709,6 +21997,192 @@ angular.module('app.components.material-docs')
 {
     'use strict';
 
+    ChatController.$inject = ["Contacts", "ChatsService", "$mdSidenav", "User", "$timeout", "$document", "$mdMedia"];
+    angular
+        .module('app.chat')
+        .controller('ChatController', ChatController);
+
+    /** @ngInject */
+    function ChatController(Contacts, ChatsService, $mdSidenav, User, $timeout, $document, $mdMedia)
+    {
+
+        var vm = this;
+
+        // Data
+        vm.contacts = ChatsService.contacts = Contacts.data;
+        vm.chats = ChatsService.chats;
+        vm.user = User.data;
+        vm.leftSidenavView = false;
+        vm.chat = undefined;
+
+        // Methods
+        vm.getChat = getChat;
+        vm.toggleSidenav = toggleSidenav;
+        vm.toggleLeftSidenavView = toggleLeftSidenavView;
+        vm.reply = reply;
+        vm.setUserStatus = setUserStatus;
+        vm.clearMessages = clearMessages;
+
+        //////////
+
+        /**
+         * Get Chat by Contact id
+         * @param contactId
+         */
+        function getChat(contactId)
+        {
+            ChatsService.getContactChat(contactId).then(function (response)
+            {
+                vm.chatContactId = contactId;
+                vm.chat = response;
+
+                // Reset the reply textarea
+                resetReplyTextarea();
+
+                // Scroll to the last message
+                scrollToBottomOfChat();
+
+                if ( !$mdMedia('gt-md') )
+                {
+                    $mdSidenav('left-sidenav').close();
+                }
+
+                // Reset Left Sidenav View
+                vm.toggleLeftSidenavView(false);
+
+            });
+        }
+
+        /**
+         * Reply
+         */
+        function reply($event)
+        {
+            // If "shift + enter" pressed, grow the reply textarea
+            if ( $event && $event.keyCode === 13 && $event.shiftKey )
+            {
+                vm.textareaGrow = true;
+                return;
+            }
+
+            // Prevent the reply() for key presses rather than the"enter" key.
+            if ( $event && $event.keyCode !== 13 )
+            {
+                return;
+            }
+
+            // Check for empty messages
+            if ( vm.replyMessage === '' )
+            {
+                resetReplyTextarea();
+                return;
+            }
+
+            // Message
+            var message = {
+                who    : 'user',
+                message: vm.replyMessage,
+                time   : new Date().toISOString()
+            };
+
+            // Add the message to the chat
+            vm.chat.push(message);
+
+            // Update Contact's lastMessage
+            vm.contacts.getById(vm.chatContactId).lastMessage = message;
+
+            // Reset the reply textarea
+            resetReplyTextarea();
+
+            // Scroll to the new message
+            scrollToBottomOfChat();
+
+        }
+
+        /**
+         * Clear Chat Messages
+         */
+        function clearMessages()
+        {
+            vm.chats[vm.chatContactId] = vm.chat = [];
+            vm.contacts.getById(vm.chatContactId).lastMessage = null;
+        }
+
+        /**
+         * Reset reply textarea
+         */
+        function resetReplyTextarea()
+        {
+            vm.replyMessage = '';
+            vm.textareaGrow = false;
+        }
+
+        /**
+         * Scroll Chat Content to the bottom
+         * @param speed
+         */
+        function scrollToBottomOfChat()
+        {
+            $timeout(function ()
+            {
+                var chatContent = angular.element($document.find('#chat-content'));
+
+                chatContent.animate({
+                    scrollTop: chatContent[0].scrollHeight
+                }, 400);
+            }, 0);
+
+        }
+
+        /**
+         * Set User Status
+         */
+        function setUserStatus(status)
+        {
+            vm.user.status = status;
+        }
+
+        /**
+         * Toggle sidenav
+         *
+         * @param sidenavId
+         */
+        function toggleSidenav(sidenavId)
+        {
+            $mdSidenav(sidenavId).toggle();
+        }
+
+        /**
+         * Toggle Left Sidenav View
+         *
+         * @param view id
+         */
+        function toggleLeftSidenavView(id)
+        {
+            vm.leftSidenavView = id;
+        }
+
+        /**
+         * Array prototype
+         *
+         * Get by id
+         *
+         * @param value
+         * @returns {T}
+         */
+        Array.prototype.getById = function (value)
+        {
+            return this.filter(function (x)
+            {
+                return x.id === value;
+            })[0];
+        };
+    }
+})();
+(function ()
+{
+    'use strict';
+
     CalendarController.$inject = ["$mdDialog", "$document"];
     angular
         .module('app.calendar')
@@ -22006,192 +22480,6 @@ angular.module('app.components.material-docs')
         }
     }
 
-})();
-(function ()
-{
-    'use strict';
-
-    ChatController.$inject = ["Contacts", "ChatsService", "$mdSidenav", "User", "$timeout", "$document", "$mdMedia"];
-    angular
-        .module('app.chat')
-        .controller('ChatController', ChatController);
-
-    /** @ngInject */
-    function ChatController(Contacts, ChatsService, $mdSidenav, User, $timeout, $document, $mdMedia)
-    {
-
-        var vm = this;
-
-        // Data
-        vm.contacts = ChatsService.contacts = Contacts.data;
-        vm.chats = ChatsService.chats;
-        vm.user = User.data;
-        vm.leftSidenavView = false;
-        vm.chat = undefined;
-
-        // Methods
-        vm.getChat = getChat;
-        vm.toggleSidenav = toggleSidenav;
-        vm.toggleLeftSidenavView = toggleLeftSidenavView;
-        vm.reply = reply;
-        vm.setUserStatus = setUserStatus;
-        vm.clearMessages = clearMessages;
-
-        //////////
-
-        /**
-         * Get Chat by Contact id
-         * @param contactId
-         */
-        function getChat(contactId)
-        {
-            ChatsService.getContactChat(contactId).then(function (response)
-            {
-                vm.chatContactId = contactId;
-                vm.chat = response;
-
-                // Reset the reply textarea
-                resetReplyTextarea();
-
-                // Scroll to the last message
-                scrollToBottomOfChat();
-
-                if ( !$mdMedia('gt-md') )
-                {
-                    $mdSidenav('left-sidenav').close();
-                }
-
-                // Reset Left Sidenav View
-                vm.toggleLeftSidenavView(false);
-
-            });
-        }
-
-        /**
-         * Reply
-         */
-        function reply($event)
-        {
-            // If "shift + enter" pressed, grow the reply textarea
-            if ( $event && $event.keyCode === 13 && $event.shiftKey )
-            {
-                vm.textareaGrow = true;
-                return;
-            }
-
-            // Prevent the reply() for key presses rather than the"enter" key.
-            if ( $event && $event.keyCode !== 13 )
-            {
-                return;
-            }
-
-            // Check for empty messages
-            if ( vm.replyMessage === '' )
-            {
-                resetReplyTextarea();
-                return;
-            }
-
-            // Message
-            var message = {
-                who    : 'user',
-                message: vm.replyMessage,
-                time   : new Date().toISOString()
-            };
-
-            // Add the message to the chat
-            vm.chat.push(message);
-
-            // Update Contact's lastMessage
-            vm.contacts.getById(vm.chatContactId).lastMessage = message;
-
-            // Reset the reply textarea
-            resetReplyTextarea();
-
-            // Scroll to the new message
-            scrollToBottomOfChat();
-
-        }
-
-        /**
-         * Clear Chat Messages
-         */
-        function clearMessages()
-        {
-            vm.chats[vm.chatContactId] = vm.chat = [];
-            vm.contacts.getById(vm.chatContactId).lastMessage = null;
-        }
-
-        /**
-         * Reset reply textarea
-         */
-        function resetReplyTextarea()
-        {
-            vm.replyMessage = '';
-            vm.textareaGrow = false;
-        }
-
-        /**
-         * Scroll Chat Content to the bottom
-         * @param speed
-         */
-        function scrollToBottomOfChat()
-        {
-            $timeout(function ()
-            {
-                var chatContent = angular.element($document.find('#chat-content'));
-
-                chatContent.animate({
-                    scrollTop: chatContent[0].scrollHeight
-                }, 400);
-            }, 0);
-
-        }
-
-        /**
-         * Set User Status
-         */
-        function setUserStatus(status)
-        {
-            vm.user.status = status;
-        }
-
-        /**
-         * Toggle sidenav
-         *
-         * @param sidenavId
-         */
-        function toggleSidenav(sidenavId)
-        {
-            $mdSidenav(sidenavId).toggle();
-        }
-
-        /**
-         * Toggle Left Sidenav View
-         *
-         * @param view id
-         */
-        function toggleLeftSidenavView(id)
-        {
-            vm.leftSidenavView = id;
-        }
-
-        /**
-         * Array prototype
-         *
-         * Get by id
-         *
-         * @param value
-         * @returns {T}
-         */
-        Array.prototype.getById = function (value)
-        {
-            return this.filter(function (x)
-            {
-                return x.id === value;
-            })[0];
-        };
-    }
 })();
 (function ()
 {
@@ -23190,6 +23478,73 @@ angular.module('app.components.material-docs')
 {
     'use strict';
 
+    msSplashScreenDirective.$inject = ["$animate"];
+    angular
+        .module('app.core')
+        .directive('msSplashScreen', msSplashScreenDirective);
+
+    /** @ngInject */
+    function msSplashScreenDirective($animate)
+    {
+        return {
+            restrict: 'E',
+            link    : function (scope, iElement)
+            {
+                var splashScreenRemoveEvent = scope.$on('msSplashScreen::remove', function ()
+                {
+                    $animate.leave(iElement).then(function ()
+                    {
+                        // De-register scope event
+                        splashScreenRemoveEvent();
+
+                        // Null-ify everything else
+                        scope = iElement = null;
+                    });
+                });
+            }
+        };
+    }
+})();
+(function ()
+{
+    'use strict';
+
+    angular
+        .module('app.core')
+        .directive('msSidenavHelper', msSidenavHelperDirective);
+
+    /** @ngInject */
+    function msSidenavHelperDirective()
+    {
+        return {
+            restrict: 'A',
+            require : '^mdSidenav',
+            link    : function (scope, iElement, iAttrs, MdSidenavCtrl)
+            {
+                // Watch md-sidenav open & locked open statuses
+                // and add class to the ".page-layout" if only
+                // the sidenav open and NOT locked open
+                scope.$watch(function ()
+                {
+                    return MdSidenavCtrl.isOpen() && !MdSidenavCtrl.isLockedOpen();
+                }, function (current)
+                {
+                    if ( angular.isUndefined(current) )
+                    {
+                        return;
+                    }
+
+                    iElement.parent().toggleClass('full-height', current);
+                    angular.element('html').toggleClass('sidenav-open', current);
+                });
+            }
+        };
+    }
+})();
+(function ()
+{
+    'use strict';
+
     MsShortcutsController.$inject = ["$scope", "$cookies", "$document", "$timeout", "$q", "msNavigationService"];
     angular
         .module('app.core')
@@ -23706,73 +24061,6 @@ angular.module('app.components.material-docs')
                     // Data
 
                 };
-            }
-        };
-    }
-})();
-(function ()
-{
-    'use strict';
-
-    msSplashScreenDirective.$inject = ["$animate"];
-    angular
-        .module('app.core')
-        .directive('msSplashScreen', msSplashScreenDirective);
-
-    /** @ngInject */
-    function msSplashScreenDirective($animate)
-    {
-        return {
-            restrict: 'E',
-            link    : function (scope, iElement)
-            {
-                var splashScreenRemoveEvent = scope.$on('msSplashScreen::remove', function ()
-                {
-                    $animate.leave(iElement).then(function ()
-                    {
-                        // De-register scope event
-                        splashScreenRemoveEvent();
-
-                        // Null-ify everything else
-                        scope = iElement = null;
-                    });
-                });
-            }
-        };
-    }
-})();
-(function ()
-{
-    'use strict';
-
-    angular
-        .module('app.core')
-        .directive('msSidenavHelper', msSidenavHelperDirective);
-
-    /** @ngInject */
-    function msSidenavHelperDirective()
-    {
-        return {
-            restrict: 'A',
-            require : '^mdSidenav',
-            link    : function (scope, iElement, iAttrs, MdSidenavCtrl)
-            {
-                // Watch md-sidenav open & locked open statuses
-                // and add class to the ".page-layout" if only
-                // the sidenav open and NOT locked open
-                scope.$watch(function ()
-                {
-                    return MdSidenavCtrl.isOpen() && !MdSidenavCtrl.isLockedOpen();
-                }, function (current)
-                {
-                    if ( angular.isUndefined(current) )
-                    {
-                        return;
-                    }
-
-                    iElement.parent().toggleClass('full-height', current);
-                    angular.element('html').toggleClass('sidenav-open', current);
-                });
             }
         };
     }
@@ -29612,25 +29900,28 @@ angular.module('app.components.material-docs')
 
             // Apps
             'app.dashboards',
-            'app.calendar',
-            'app.e-commerce',
-            'app.mail',
-            'app.chat',
-            'app.file-manager',
-            'app.gantt-chart',
-            'app.scrumboard',
-            'app.todo',
-            'app.contacts',
-            'app.notes',
+            //'app.calendar',
+            //'app.e-commerce',
+            //'app.mail',
+            //'app.chat',
+            //'app.file-manager',
+            //'app.gantt-chart',
+            //'app.scrumboard',
+            //'app.todo',
+            //'app.contacts',
+            //'app.notes',
+			
+			//Users
+			'app.users',
 
             // Pages
-            'app.pages',
+            //'app.pages',
 
             // User Interface
-            'app.ui',
+            'app.ui'
 
             // Components
-            'app.components'
+            //'app.components'
         ]);
 })();
 
@@ -30282,16 +30573,17 @@ angular.module('app.components.material-docs')
         });
 
         msNavigationServiceProvider.saveItem('apps.dashboards', {
-            title : 'Dashboards',
+            title : 'Dashboard',
             icon  : 'icon-tile-four',
             weight: 1
         });
 
         msNavigationServiceProvider.saveItem('apps.dashboards.project', {
-            title: 'Project',
+            title: 'Início',
             state: 'app.dashboards_project'
         });
 
+		/*
         msNavigationServiceProvider.saveItem('apps.dashboards.server', {
             title: 'Server',
             state: 'app.dashboards_server'
@@ -30301,6 +30593,56 @@ angular.module('app.components.material-docs')
             title: 'Analytics',
             state: 'app.dashboards_analytics'
         });
+		*/
+    }
+
+})();
+(function ()
+{
+    'use strict';
+
+    config.$inject = ["msNavigationServiceProvider"];
+    angular
+        .module('app.users',
+            [
+                'app.users.insert',
+                'app.users.edit',
+                'app.users.list'
+            ]
+        )
+        .config(config);
+
+    /** @ngInject */
+    function config(msNavigationServiceProvider)
+    {
+        // Navigation
+        msNavigationServiceProvider.saveItem('apps', {
+            title : '',
+            group : true,
+            weight: 1
+        });
+
+        msNavigationServiceProvider.saveItem('apps.users', {
+            title : 'Usuários',
+            icon  : 'icon-tile-four',
+            weight: 1
+        });
+
+        msNavigationServiceProvider.saveItem('apps.users.insert', {
+            title: 'Inserir Usuário',
+            state: 'app.users_insert'
+        });
+
+        msNavigationServiceProvider.saveItem('apps.users.edit', {
+            title: 'Editar Usuário',
+            state: 'app.users_edit'
+        });
+
+        msNavigationServiceProvider.saveItem('apps.users.list', {
+            title: 'Listar Usuários',
+            state: 'app.users_list'
+        });
+
     }
 
 })();

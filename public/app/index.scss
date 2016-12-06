@@ -62,8 +62,8 @@
 @import "core/directives/ms-card/templates/template-9/template-9.scss";
 @import "core/directives/ms-stepper/templates/horizontal/horizontal.scss";
 @import "core/directives/ms-stepper/templates/vertical/vertical.scss";
-@import "main/apps/mail/views/classic/list/list.scss";
 @import "main/apps/mail/views/classic/detail/detail.scss";
+@import "main/apps/mail/views/classic/list/list.scss";
 @import "main/apps/mail/views/outlook/detail/detail.scss";
 @import "main/apps/mail/views/outlook/list/list.scss";
 @import "main/components/material-docs/demo-partials/chips/demoBasicUsage/style.scss";
@@ -77,8 +77,8 @@
 @import "main/components/material-docs/demo-partials/tabs/demoDynamicHeight/style.scss";
 @import "main/components/material-docs/demo-partials/tabs/demoDynamicTabs/style.scss";
 @import "main/components/material-docs/demo-partials/tabs/demoStaticTabs/style.scss";
-@import "main/apps/chat/sidenavs/left/views/contacts/contacts-views.scss";
 @import "main/apps/chat/sidenavs/left/views/chats/chats-view.scss";
+@import "main/apps/chat/sidenavs/left/views/contacts/contacts-views.scss";
 @import "main/apps/chat/sidenavs/left/views/user/user-view.scss";
 @import "main/apps/chat/sidenavs/right/views/contact/contact-view.scss";
 @import "main/apps/scrumboard/sidenavs/settings/menus/color/color-menu.scss";
@@ -100,8 +100,8 @@
 @import "main/apps/scrumboard/scrumboard.scss";
 @import "main/apps/todo/todo.scss";
 @import "main/components/charts/charts.scss";
-@import "main/components/material-docs/material-doc-template.scss";
 @import "main/components/maps/maps.scss";
+@import "main/components/material-docs/material-doc-template.scss";
 @import "main/components/price-tables/price-tables.scss";
 @import "main/components/widgets/widgets.scss";
 @import "main/pages/coming-soon/coming-soon.scss";
@@ -115,6 +115,9 @@
 @import "main/ui/material-colors/material-colors.scss";
 @import "main/ui/theme-colors/theme-colors.scss";
 @import "main/ui/typography/typography.scss";
+@import "main/users/edit/users-edit.scss";
+@import "main/users/insert/users-insert.scss";
+@import "main/users/list/users-list.scss";
 @import "navigation/layouts/horizontal-navigation/navigation.scss";
 @import "navigation/layouts/vertical-navigation/navigation.scss";
 @import "navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation.scss";
@@ -155,12 +158,12 @@
 @import "main/apps/gantt-chart/dialogs/add-edit/add-edit-dialog.scss";
 @import "main/apps/gantt-chart/sidenavs/settings/settings-sidenav.scss";
 @import "main/apps/mail/dialogs/compose/compose-dialog.scss";
+@import "main/apps/mail/sidenavs/main/main-sidenav.scss";
 @import "main/apps/mail/views/classic/classic-view.scss";
 @import "main/apps/mail/views/outlook/outlook-view.scss";
 @import "main/apps/notes/directives/ms-new-note/ms-new-note.scss";
 @import "main/apps/notes/directives/ms-note-form/ms-note-form.scss";
 @import "main/apps/notes/directives/ms-note-item/ms-note-item.scss";
-@import "main/apps/mail/sidenavs/main/main-sidenav.scss";
 @import "main/apps/notes/sidenavs/main/main-sidenav.scss";
 @import "main/apps/scrumboard/dialogs/card/card-dialog.scss";
 @import "main/apps/scrumboard/directives/ms-sb-add-card/ms-sb-add-card.scss";
